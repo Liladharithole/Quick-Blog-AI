@@ -4,12 +4,17 @@ import { blog_data, comments_data } from "../assets/assets";
 import Navbar from "../components/Navbar";
 import { assets } from "../assets/assets";
 import Moment from "moment";
+import Footer from "../components/Footer";
+import Loader from "../components/Loader";
 
 const Blog = () => {
   const { id } = useParams();
 
   const [data, setData] = useState(null);
   const [comments, setComments] = useState([]);
+  const [name, setName] = useState("");
+  const [content, setContent] = useState("");
+
   //fetch blog data
   const fetchBlogData = async () => {
     const data = blog_data.find((item) => item._id === id);
@@ -18,6 +23,10 @@ const Blog = () => {
   //fetch comments
   const fetchComments = async () => {
     setComments(comments_data);
+  };
+  //add comment
+  const addComment = async (e) => {
+    e.preventDefault();
   };
   //useEffect
   useEffect(() => {
@@ -59,7 +68,9 @@ const Blog = () => {
         ></div>
         {/* comments */}
         <div className="mt-14 mb-10 max-w-3xl mx-auto">
-          <p className="text-lg font-medium mb-4">Comments ({comments.length})</p>
+          <p className="text-lg font-medium mb-4">
+            Comments ({comments.length})
+          </p>
           <div className="flex flex-col gap-4">
             {comments.map((item, index) => (
               <div
@@ -71,7 +82,9 @@ const Blog = () => {
                   <p className="font-medium">{item.name}</p>
                 </div>
                 <p className="text-sm max-w-md ml-8">{item.content}</p>
-                <p className="absolute right-4 bottom-3 flex items-center gap-2 text-xs">{Moment(item.createdAt).fromNow()}</p>
+                <p className="absolute right-4 bottom-3 flex items-center gap-2 text-xs">
+                  {Moment(item.createdAt).fromNow()}
+                </p>
               </div>
             ))}
           </div>
@@ -88,13 +101,51 @@ const Blog = () => {
             </div>
           </form>
         </div> */}
-        <div className="max-w-3xl max-auto">    
-
+        <div className="max-w-3xl mx-auto">
+          <p className="font-sem mb-4">Add Your Comment</p>
+          <form
+            onSubmit={addComment}
+            className="flex flex-col items-start gap-4 max-w-lg"
+          >
+            <input
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              type="text"
+              placeholder="Name"
+              required
+              className="border border-gray-300 rounded p-2"
+            />
+            <textarea
+              onChange={(e) => setContent(e.target.value)}
+              value={content}
+              placeholder="Comment"
+              className="w-full p-2 border border-gray-300 rounded outline-none h-48"
+              required
+            ></textarea>
+            <button
+              type="submit"
+              className="bg-primary text-white p-2 px-8 hover:scale-102 transition-all duration-300 cursor-pointer"
+            >
+              Post Comment
+            </button>
+          </form>
+        </div>
+        {/* shred button */}
+        <div className="my-24 max-w-3xl mx-auto">
+          <p className="font-semibold my-4">
+            Share ThisArticle on Social Media
+          </p>
+          <div className="flex">
+            <img src={assets.facebook_icon} alt="facebook" width={50} />
+            <img src={assets.twitter_icon} alt="twitter" width={50} />
+            <img src={assets.googleplus_icon} alt="googleplus" width={50} />
+          </div>
         </div>
       </div>
+      <Footer />
     </div>
   ) : (
-    <div>Loading...</div>
+    <Loader />
   );
 };
 
