@@ -1,9 +1,15 @@
 import React from "react";
+import { useState } from "react";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(email, password);
   };
+
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="w-full max-w-sm p-6 max-md:m-6 border border-primary/30 shadow-xl shadow-primary/15 rounded-lg">
@@ -26,6 +32,8 @@ const Login = () => {
                 required
                 placeholder="Enter your email"
                 className="border-b-2 border-gray-300 p-2 outline-none mb-6 focus:border-primary"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
               />
             </div>
             <div className="flex flex-col">
@@ -34,7 +42,9 @@ const Login = () => {
                 type="password"
                 required
                 placeholder="Enter your password"
-                className="border-b-2 border-gray-300 p-2 outline-none mb-6"
+                className="border-b-2 border-gray-300 p-2 outline-none mb-6 focus:border-primary"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
               />
             </div>
             <button
