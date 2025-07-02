@@ -10,7 +10,7 @@ const Layout = () => {
       <div className="flex item-center justify-between py-2 h-[70px] px-4 sm:px-12 border-b border-gray-200">
         <img
           src={assets.logo}
-          alt="logo"
+          alt="logo"   
           className="w-32 sm:w-44 cursor-pointer"
           onClick={() => navigate("/")}
         />
