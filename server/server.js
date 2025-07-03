@@ -14,6 +14,10 @@ app.use(cors());
 // parse json
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("Back-end is running");
+});
+
 // admin routes
 app.use("/api/admin", adminRouter);
 // blog routes
