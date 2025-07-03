@@ -173,6 +173,15 @@ export const publishBlogById = async (req, res) => {
   }
 };
 
-
+// add comment
+export const addComment = async (req, res) => {
+  try {
+    const {blog , name , content} = req.body;
+    
+    
+  } catch (error) {
+    
+  }
+};
 
 export default addBlog;
