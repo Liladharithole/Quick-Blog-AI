@@ -1,5 +1,6 @@
 import imagekit from "../configs/imageKit.js";
 import Blog from "../models/blog.model.js";
+import Comment from "../models/Comment.js";
 
 // Add blog
 export const addBlog = async (req, res) => {
@@ -142,6 +143,10 @@ export const deleteBlogById = async (req, res) => {
   try {
     const { blogId } = req.params;
     await Blog.findByIdAndDelete(blogId);
+
+    // delete comments associated with the blog
+    await Comment.deleteMany({ blog: blogId });
+
     res.status(200).json({
       success: true,
       message: "Blog deleted successfully",
@@ -176,11 +181,40 @@ export const publishBlogById = async (req, res) => {
 // add comment
 export const addComment = async (req, res) => {
   try {
-    const {blog , name , content} = req.body;
-    
-    
+    const { blog, name, content } = req.body;
+    await Comment.create({ blog, name, content });
+    res.status(200).json({
+      success: true,
+      message: "Comment added for review",
+    });
   } catch (error) {
-    
+    console.error("Error in addComment:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
+
+// get all comments
+export const getBlogComments = async (req, res) => {
+  try {
+    const { blogId } = req.body;
+    const comments = await Comment.find({
+      blog: blogId,
+      isApproved: true,
+    }).sort({ createdAt: -1 });
+    res.status(200).json({
+      success: true,
+      message: "Comments fetched successfully",
+      data: comments,
+    });
+  } catch (error) {
+    console.error("Error in get Comments:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
   }
 };
 
