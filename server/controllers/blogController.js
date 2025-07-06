@@ -217,5 +217,3 @@ export const getBlogComments = async (req, res) => {
     });
   }
 };
-
-export default addBlog;
