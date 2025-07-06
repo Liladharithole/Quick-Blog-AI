@@ -13,16 +13,12 @@ await connectDB();
 app.use(cors());
 // parse json
 app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.send("Back-end is running");
-});
-
+app.use(express.urlencoded({ extended: true }));
 // admin routes
 app.use("/api/admin", adminRouter);
 // blog routes
 app.use("/api/blog", blogRouter);
-
+// start server
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Server is running on port ${process.env.PORT || 3000}`);
 });
