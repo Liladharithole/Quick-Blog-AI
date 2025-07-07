@@ -1,17 +1,31 @@
 import React, { useEffect } from "react";
-import { blog_data } from "../../assets/assets";
+// import { blog_data } from "../../assets/assets";
 import { useState } from "react";
 import BlogTableItem from "../../components/admin/BlogTableItem";
+import { useAppContext } from "../../context/AppContext";
+import { toast } from "react-hot-toast";
 
 const ListBlog = () => {
+  const { axios } = useAppContext();
   const [blogs, setBlogs] = useState([]);
 
   const fetchBlogs = async () => {
-    setBlogs(blog_data);
+    try {
+      const { data } = await axios.get("/api/admin/blogs");
+      if (data) {
+        setBlogs(data.blogs);
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   useEffect(() => {
     fetchBlogs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
