@@ -3,7 +3,7 @@ import { assets, blogCategories } from "../../assets/assets";
 import "quill/dist/quill.snow.css";
 import Quill from "quill";
 import { useAppContext } from "../../context/AppContext";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const AddBlog = () => {
   const { axios, token } = useAppContext();
@@ -15,7 +15,7 @@ const AddBlog = () => {
   const [image, setImage] = useState(false);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
-  const [content, setContent] = useState("");
+  // const [content, setContent] = useState("");
   const [category, setCategory] = useState("Startup");
   const [isPublished, setIsPublished] = useState(false);
 
@@ -88,7 +88,7 @@ const AddBlog = () => {
       // Reset form
       setTitle("");
       setSubtitle("");
-      setContent("");
+      // setContent("");
       setCategory("Startup");
       setIsPublished(false);
       setImage(false);
