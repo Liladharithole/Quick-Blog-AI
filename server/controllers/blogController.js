@@ -1,5 +1,5 @@
 import imagekit from "../configs/imageKit.js";
-import Blog from "../models/blog.model.js";
+import Blog from "../models/Blog.model.js";
 import Comment from "../models/Comment.js";
 import main from "../configs/gemini.js";
 
