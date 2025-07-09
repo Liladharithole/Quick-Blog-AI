@@ -62,7 +62,7 @@ Follow these steps to set up and run the project locally.
 1.  **Clone the repository:**
 
     ```bash
-     https://github.com/Liladharithole/Quick-Blog-AI.git
+    https://github.com/Liladharithole/Quick-Blog-AI.git
     cd Quick-Blog-AI
     ```
 
