@@ -14,6 +14,10 @@ app.use(cors());
 // parse json
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.get("/", (req, res) => {
+  res.send("API is running");
+});
 // admin routes
 app.use("/api/admin", adminRouter);
 // blog routes
