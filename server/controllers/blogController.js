@@ -1,6 +1,7 @@
 import imagekit from "../configs/imageKit.js";
 import Blog from "../models/blog.model.js";
 import Comment from "../models/Comment.js";
+import main from "../configs/gemini.js";
 
 // Add blog
 export const addBlog = async (req, res) => {
@@ -211,6 +212,27 @@ export const getBlogComments = async (req, res) => {
     });
   } catch (error) {
     console.error("Error in get Comments:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+};
+
+// generate content
+export const generateContent = async (req, res) => {
+  try {
+    const { prompt } = req.body;
+    const content = await main(
+      prompt + "write a blog content for this topic in simple text format"
+    );
+    res.status(200).json({
+      success: true,
+      message: "Content generated successfully",
+      data: content,
+    });
+  } catch (error) {
+    console.error("Error in generateContent:", error);
     res.status(500).json({
       success: false,
       message: error.message || "Internal server error",

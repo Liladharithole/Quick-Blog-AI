@@ -4,10 +4,12 @@ import "quill/dist/quill.snow.css";
 import Quill from "quill";
 import { useAppContext } from "../../context/AppContext";
 import { toast } from "react-hot-toast";
+import { parse } from "marked";
 
 const AddBlog = () => {
   const { axios, token } = useAppContext();
   const [isAdding, setIsAdding] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const editorRef = useRef(null);
   const quillRef = useRef(null);
@@ -15,49 +17,8 @@ const AddBlog = () => {
   const [image, setImage] = useState(false);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
-  // const [content, setContent] = useState("");
   const [category, setCategory] = useState("Startup");
   const [isPublished, setIsPublished] = useState(false);
-
-  // const onSubmitHandler = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     setIsAdding(true);
-  //     const blog = {
-  //       title,
-  //       subtitle,
-  //       description: quillRef.current.root.innerHTML,
-  //       category,
-  //       isPublished,
-  //     };
-  //     const formData = new FormData();
-  //     formData.append("blog", JSON.stringify(blog));
-  //     formData.append("image", image);
-
-  //     const config = {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     };
-
-  //     const { data } = await axios.post("/api/blog/add", formData, config);
-  //     data.success ? toast.success(data.message) : toast.error(data.message);
-  //     //reset form
-  //     setIsAdding(false);
-  //     setTitle("");
-  //     setSubtitle("");
-  //     setContent("");
-  //     setCategory("Startup");
-  //     setIsPublished(false);
-  //     setImage(false);
-  //     quillRef.current.root.innerHTML = "";
-  //   } catch (error) {
-  //     toast.error(error.response.data.message);
-  //   } finally {
-  //     setIsAdding(false);
-  //   }
-  // };
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -88,7 +49,6 @@ const AddBlog = () => {
       // Reset form
       setTitle("");
       setSubtitle("");
-      // setContent("");
       setCategory("Startup");
       setIsPublished(false);
       setImage(false);
@@ -96,7 +56,7 @@ const AddBlog = () => {
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to submit blog");
     } finally {
-      setIsAdding(false);
+      setLoading(false);
     }
   };
 
@@ -108,7 +68,24 @@ const AddBlog = () => {
     }
   }, []);
 
-  const generateContent = async () => {};
+  const generateContent = async () => {
+    if (!title)
+      return toast.error("Title is required");
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/blog/generate-content", {
+        prompt: title,
+      });
+      data.success ? toast.success(data.message) : toast.error(data.message);
+      quillRef.current.root.innerHTML = parse(data.data);
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Failed to generate content"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <form
@@ -153,7 +130,13 @@ const AddBlog = () => {
         <p className="mt-4">Blog Description</p>
         <div className="relative max-w-lg h-74 pb-16 sm:pb-10 pt-2">
           <div ref={editorRef}></div>
+          {loading && (
+            <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              Generating content...
+            </p>
+          )}
           <button
+            disabled={loading}
             type="button"
             onClick={generateContent}
             className="absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5 rounded hover:underline cursor-pointer"
