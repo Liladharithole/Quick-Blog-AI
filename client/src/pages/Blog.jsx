@@ -85,10 +85,10 @@ const Blog = () => {
         </h1>
         <h2
           className="text-lg sm:text-2xl font-medium max-w-2xl mx-auto text-gray-600 mb-4"
-          dangerouslySetInnerHTML={{ __html: data.subTitle }}
+          dangerouslySetInnerHTML={{ __html: data.subtitle }}
         ></h2>
         <p className="inline-block py-1 px-5  rounded-full mb-6 border text-sm border-primary/40 bg-primary/5 font-medium text-medium mx-5">
-          {data.author}
+          Liladhar👍
         </p>
       </div>
       {/* blog content */}
@@ -122,17 +122,6 @@ const Blog = () => {
           </div>
         </div>
         {/* comments form */}
-        {/* <div className="mt-14 mb-10 max-w-3xl mx-auto">
-          <p className="text-lg font-medium mb-4">Leave a Comment</p>
-          <form action="">
-            <div className="flex flex-col gap-4">
-              <input type="text" placeholder="Name" className="border border-gray-300 rounded p-2" />
-              <input type="email" placeholder="Email" className="border border-gray-300 rounded p-2" />
-              <textarea placeholder="Comment" className="border border-gray-300 rounded p-2"></textarea>
-              <button type="submit" className="bg-primary text-white py-2 rounded">Post Comment</button>
-            </div>
-          </form>
-        </div> */}
         <div className="max-w-3xl mx-auto">
           <p className="font-sem mb-4">Add Your Comment</p>
           <form
